@@ -127,5 +127,4 @@ fabric.properties
 .classpath
 .idea/
 .project
-lib/
-src/
+target/
