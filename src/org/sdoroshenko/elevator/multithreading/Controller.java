@@ -24,7 +24,9 @@ import org.sdoroshenko.elevator.util.Validator;
  * @author Sergei Doroshenko
  */
 public class Controller extends Thread implements IController {
+
     private static final Logger log = LogManager.getLogger(Controller.class);
+
     private int previousStartId;
     private int storiesNumber;
     private int passengersNumber;

@@ -30,10 +30,6 @@ public class ViewComponent extends JComponent {
 		elevator = new ElevatorView(getBounds(), storiesNumber);
 		
 	}
-	
-	public Map <Integer, StoryView> getStoriesViewContainer() {
-		return storiesViewContainer;
-	}
 
 	public void setStoriesViewContainer(Map<Integer, Story> storiesContainer) {
 		Set<Map.Entry<Integer, Story>> setValue = storiesContainer.entrySet();
@@ -82,20 +78,8 @@ public class ViewComponent extends JComponent {
 		return elevator;
 	}
 
-	public void setElevatorView(ElevatorView lift) {
-		this.elevator = lift;
-	}
-
-	public IGUIElevator getFrame() {
-		return frame;
-	}
-
 	public void setFrame(ElevatorFrame frame) {
 		this.frame = frame;
-	}
-
-	public void setStoriesNumber(int storiesNumber) {
-		this.storiesNumber = storiesNumber;
 	}
 	
 }

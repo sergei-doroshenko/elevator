@@ -13,14 +13,11 @@ public class StoryView {
 	private double  yPoint = 50;
 	private List<PassengerView> dispatchStoryContainer;
 	private List<PassengerView> arrivalStoryContainer;
-	
-	public StoryView(Integer integer, Story story) {
-	}
 
 	public StoryView(Story story) {
 		super();
-		dispatchStoryContainer = new ArrayList<PassengerView> ();
-		arrivalStoryContainer = new ArrayList<PassengerView> ();
+		dispatchStoryContainer = new ArrayList<> ();
+		arrivalStoryContainer = new ArrayList<> ();
 		
 		for (Passenger p : story.getDispatchStoryContainer()) {
 			dispatchStoryContainer.add(new PassengerView(p.getDestinationStory().getId()));
@@ -57,10 +54,6 @@ public class StoryView {
 		}
 	}
 	
-	public synchronized void addPassengerView (PassengerView pv) {
-		dispatchStoryContainer.add(pv);
-	}
-	
 	public synchronized void movePassengerView (PassengerView pv) {
 		dispatchStoryContainer.remove(pv);
 	}
@@ -76,10 +69,6 @@ public class StoryView {
 	
 	public synchronized void dropOutPassengerView (PassengerView pv) {
 		arrivalStoryContainer.add(pv);
-	}
-
-	public double getY() {
-		return yPoint;
 	}
 
 	public void setY(double y) {

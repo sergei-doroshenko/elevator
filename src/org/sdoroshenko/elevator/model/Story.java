@@ -8,8 +8,8 @@ public class Story {
 	private final int id;
 	private final Set<Passenger> dispatchStoryContainer;
 	private final Set<Passenger> arrivalStoryContainer;
+
 	private boolean elevator;
-	
 	
 	public Story() {
 		id = nextID++;

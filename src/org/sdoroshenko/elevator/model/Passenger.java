@@ -19,13 +19,13 @@ public class Passenger {
 
 	private TransportationState transportationState;
 
-	public Passenger(Story startStory, Story destinationStory, PropertyChangeListener listener) {
-		id = nextID++;
+	public Passenger(final Story startStory, final Story destinationStory, final PropertyChangeListener listener) {
+		this.id = nextID++;
 		this.startStory = startStory;
 		this.destinationStory = destinationStory;
 		this.moveUp = destinationStory.getId() > startStory.getId();
 		setTransportationState(TransportationState.NOT_STARTED);
-		changeSupport.addPropertyChangeListener(listener);
+		this.changeSupport.addPropertyChangeListener(listener);
 		startStory.add(this);
 	}
 
