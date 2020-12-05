@@ -10,23 +10,20 @@ import java.beans.PropertyChangeSupport;
  */
 public class Passenger {
 	private static int nextID = 0;
-	private int id;
-	private Story startStory;
-	private Story destinationStory;
-	private TransportationState transportationState;
-	private boolean moveUp;
-	private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
+	private final int id;
+	private final Story startStory;
+	private final Story destinationStory;
+	private final boolean moveUp;
+	private final PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
-	public Passenger() {
-		id = nextID++;
-		setTransportationState(TransportationState.NOT_STARTED);
-	}
+	private TransportationState transportationState;
 
 	public Passenger(Story startStory, Story destinationStory, PropertyChangeListener listener) {
 		super();
 		id = nextID++;
 		this.startStory = startStory;
-		setDestinationStory(destinationStory);
+		this.destinationStory = destinationStory;
+		this.moveUp = destinationStory.getId() > startStory.getId();
 		setTransportationState(TransportationState.NOT_STARTED);
 		changeSupport.addPropertyChangeListener(listener);
 		startStory.add(this);
@@ -44,17 +41,8 @@ public class Passenger {
 		return startStory;
 	}
 
-	public void setStartStory(Story startStory) {
-		this.startStory = startStory;
-	}
-
 	public Story getDestinationStory() {
 		return destinationStory;
-	}
-
-	public void setDestinationStory(Story destinationStory) {
-		this.destinationStory = destinationStory;
-		moveUp = destinationStory.getId() > startStory.getId();
 	}
 
 	public TransportationState getTransportationState() {
@@ -77,10 +65,6 @@ public class Passenger {
 				+ startStory.getId() + ", destinationStory=" + destinationStory.getId()
 				+ ", transpontationState=" + transportationState + "]";
 	}
-	
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
 	
 	public enum TransportationState {
 		NOT_STARTED, IN_PROGRESS, COMPLETED, ABORTED

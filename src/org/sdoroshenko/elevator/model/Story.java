@@ -5,21 +5,17 @@ import java.util.List;
 
 public class Story {
 	private static int nextID = 0;
-	private int id;
-	private List<Passenger> dispatchStoryContainer;
-	private List<Passenger> arrivalStoryContainer;
+	private final int id;
+	private final List<Passenger> dispatchStoryContainer;
+	private final List<Passenger> arrivalStoryContainer;
 	private boolean elevator;
 	
 	
 	public Story() {
 		id = nextID++;
-		dispatchStoryContainer = new ArrayList<Passenger>();
-		arrivalStoryContainer = new ArrayList<Passenger>();
+		dispatchStoryContainer = new ArrayList<>();
+		arrivalStoryContainer = new ArrayList<>();
 		elevator = false;
-	}
-	
-	public static int getNextID() {
-		return nextID;
 	}
 
 	public static void setNextID(int nextID) {
@@ -30,36 +26,16 @@ public class Story {
 		dispatchStoryContainer.add(passenger);
 	}
 	
-	public void move (Passenger passenger) {
-		dispatchStoryContainer.remove(passenger);
-	}
-	
-	public void dropOff (Passenger passenger) {
-		arrivalStoryContainer.add(passenger);
-	}
-	
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public List<Passenger> getDispatchStoryContainer() {
 		return dispatchStoryContainer;
 	}
 
-	public void setDispatchStoryContainer(List<Passenger> dispatchStoryContainer) {
-		this.dispatchStoryContainer = dispatchStoryContainer;
-	}
-
 	public List<Passenger> getArrivalStoryContainer() {
 		return arrivalStoryContainer;
-	}
-
-	public void setArrivalStoryContainer(List<Passenger> arrivalStoryContainer) {
-		this.arrivalStoryContainer = arrivalStoryContainer;
 	}
 	
 	public boolean isElevator() {
