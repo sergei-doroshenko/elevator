@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import org.sdroshenko.elevator.ifaces.IController;
 import org.sdroshenko.elevator.model.Passenger;
@@ -23,7 +24,7 @@ import org.sdroshenko.elevator.util.Validator;
  * @author Sergei Doroshenko
  */
 public class Controller extends Thread implements IController {
-    private static Logger log = Logger.getLogger(Controller.class);
+    private static final Logger log = LogManager.getLogger(Controller.class);
     private int previousStartId;
     private int storiesNumber;
     private int passengersNumber;
@@ -82,7 +83,7 @@ public class Controller extends Thread implements IController {
                         try {
                             wait();
                         } catch (InterruptedException e) {
-                            System.out.println(Thread.currentThread().getName() + " interrupt!");
+                            log.error(Thread.currentThread().getName() + " interrupt!");
                             break;
                         }
                     }
@@ -99,7 +100,7 @@ public class Controller extends Thread implements IController {
                     try {
                         this.wait();
                     } catch (InterruptedException e) {
-                        System.out.println(Thread.currentThread().getName() + " interrupt!");
+                        log.error(Thread.currentThread().getName() + " interrupt!");
                         break;
                     }
                 }
@@ -113,7 +114,6 @@ public class Controller extends Thread implements IController {
 
         String valMessage = validateResults();
         log.info(valMessage);
-        System.out.println(valMessage);
 
         contrSupport.firePropertyChange("started", true, false);
     }

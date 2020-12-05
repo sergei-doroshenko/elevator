@@ -12,7 +12,7 @@
         </File>
     </Appenders>
     <Loggers>
-        <Logger name="org.sdroshenko.elevator.Runner" level="trace" additivity="false">
+        <Logger name="org.sdroshenko.elevator" level="trace" additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="File"/>
         </Logger>

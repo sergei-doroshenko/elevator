@@ -3,7 +3,13 @@ package org.sdroshenko.elevator.multithreading;
 import org.sdroshenko.elevator.model.Passenger;
 import org.sdroshenko.elevator.model.Story;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 public class TransportationTask extends Thread {
+
+    private static final Logger log = LogManager.getLogger(TransportationTask.class);
+
     private final Passenger passenger;
     private final Story startStory;
     private final Story destinationStory;
@@ -27,7 +33,7 @@ public class TransportationTask extends Thread {
                     try {
                         startStory.wait();
                     } catch (InterruptedException e) {
-                        System.out.println(Thread.currentThread().getName() + " interrupt!");
+                        log.error(Thread.currentThread().getName() + " interrupt!");
                         passenger.setTransportationState(Passenger.TransportationState.ABORTED);
                         break;
                     }
@@ -52,7 +58,7 @@ public class TransportationTask extends Thread {
                 try {
                     controller.wait();
                 } catch (InterruptedException e) {
-                    System.out.println(Thread.currentThread().getName() + " interrupt!");
+                    log.error(Thread.currentThread().getName() + " interrupt!");
                     break;
                 }
             }

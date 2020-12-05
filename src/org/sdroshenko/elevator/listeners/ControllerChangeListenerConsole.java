@@ -2,11 +2,14 @@ package org.sdroshenko.elevator.listeners;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import org.sdroshenko.elevator.model.Passenger;
 
 public class ControllerChangeListenerConsole implements PropertyChangeListener {
-	private static Logger log = Logger.getLogger(ControllerChangeListenerConsole.class);
+	private static Logger log = LogManager.getLogger(ControllerChangeListenerConsole.class);
 	
 	public ControllerChangeListenerConsole() {
 	}
@@ -55,7 +58,6 @@ public class ControllerChangeListenerConsole implements PropertyChangeListener {
 			
 		}
 	
-		log.info(" ----> " + message);
-		System.out.println (message);
+		log.info(message);
 	}
 }
