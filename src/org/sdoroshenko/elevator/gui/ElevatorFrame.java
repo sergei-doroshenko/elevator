@@ -8,7 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
-import org.sdoroshenko.elevator.ifaces.IGUIElevator;
 import org.sdoroshenko.elevator.listeners.AnimationListener;
 import org.sdoroshenko.elevator.multithreading.IController;
 import org.sdoroshenko.elevator.listeners.ButtonActionListener;

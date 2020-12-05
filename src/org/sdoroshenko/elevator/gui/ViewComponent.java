@@ -10,7 +10,6 @@ import java.util.Set;
 
 import javax.swing.JComponent;
 
-import org.sdoroshenko.elevator.ifaces.IGUIElevator;
 import org.sdoroshenko.elevator.model.Story;
 
 public class ViewComponent extends JComponent {

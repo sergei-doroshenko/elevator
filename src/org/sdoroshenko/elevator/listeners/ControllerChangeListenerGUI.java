@@ -6,7 +6,7 @@ import java.beans.PropertyChangeListener;
 import org.apache.log4j.Logger;
 
 import org.sdoroshenko.elevator.gui.ConstantsGUI;
-import org.sdoroshenko.elevator.ifaces.IGUIElevator;
+import org.sdoroshenko.elevator.gui.IGUIElevator;
 import org.sdoroshenko.elevator.model.Passenger;
 
 

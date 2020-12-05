@@ -7,7 +7,7 @@ import java.io.IOException;
 import javax.swing.JButton;
 
 import org.sdoroshenko.elevator.gui.ConstantsGUI;
-import org.sdoroshenko.elevator.ifaces.IGUIElevator;
+import org.sdoroshenko.elevator.gui.IGUIElevator;
 import org.sdoroshenko.elevator.multithreading.Controller;
 import org.sdoroshenko.elevator.multithreading.IController;
 import org.sdoroshenko.elevator.gui.LogConsole;

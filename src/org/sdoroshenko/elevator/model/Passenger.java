@@ -2,6 +2,7 @@ package org.sdoroshenko.elevator.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Objects;
 
 /**
  * The elevator passenger.
@@ -19,7 +20,6 @@ public class Passenger {
 	private TransportationState transportationState;
 
 	public Passenger(Story startStory, Story destinationStory, PropertyChangeListener listener) {
-		super();
 		id = nextID++;
 		this.startStory = startStory;
 		this.destinationStory = destinationStory;
@@ -57,6 +57,19 @@ public class Passenger {
 	
 	public boolean isMoveUp() {
 		return moveUp;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Passenger passenger = (Passenger) o;
+		return id == passenger.id;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
 	}
 
 	@Override

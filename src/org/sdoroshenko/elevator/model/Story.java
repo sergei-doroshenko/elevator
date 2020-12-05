@@ -1,20 +1,20 @@
 package org.sdoroshenko.elevator.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Story {
 	private static int nextID = 0;
 	private final int id;
-	private final List<Passenger> dispatchStoryContainer;
-	private final List<Passenger> arrivalStoryContainer;
+	private final Set<Passenger> dispatchStoryContainer;
+	private final Set<Passenger> arrivalStoryContainer;
 	private boolean elevator;
 	
 	
 	public Story() {
 		id = nextID++;
-		dispatchStoryContainer = new ArrayList<>();
-		arrivalStoryContainer = new ArrayList<>();
+		dispatchStoryContainer = new HashSet<>();
+		arrivalStoryContainer = new HashSet<>();
 		elevator = false;
 	}
 
@@ -30,11 +30,11 @@ public class Story {
 		return id;
 	}
 
-	public List<Passenger> getDispatchStoryContainer() {
+	public Set<Passenger> getDispatchStoryContainer() {
 		return dispatchStoryContainer;
 	}
 
-	public List<Passenger> getArrivalStoryContainer() {
+	public Set<Passenger> getArrivalStoryContainer() {
 		return arrivalStoryContainer;
 	}
 	

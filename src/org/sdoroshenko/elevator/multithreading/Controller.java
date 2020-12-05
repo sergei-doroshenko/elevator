@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class Controller extends Thread implements IController {
     private int passengersNumber;
     private int elevatorCapacity;
     private long animationBoost;
-    private List<Passenger> elevatorContainer = new ArrayList<>();
+    private Set<Passenger> elevatorContainer = new HashSet<>();
     private Map<Integer, Story> storiesContainer;
     private ThreadGroup tGroup;
     private List<Thread> transportationTasksPool;
@@ -243,11 +244,11 @@ public class Controller extends Thread implements IController {
         return tGroup;
     }
 
-    public List<Passenger> getElevatorContainer() {
+    public Set<Passenger> getElevatorContainer() {
         return elevatorContainer;
     }
 
-    public void setElevatorContainer(List<Passenger> elevatorContainer) {
+    public void setElevatorContainer(Set<Passenger> elevatorContainer) {
         this.elevatorContainer = elevatorContainer;
     }
 
