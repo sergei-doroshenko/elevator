@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: org.sdroshenko.elevator.Runner
+Main-Class: org.sdoroshenko.elevator.Runner
 Class-Path: lib/log4j-1.2-api-2.14.0.jar lib/log4j-api-2.14.0.jar lib/log4j-core-2.14.0.jar

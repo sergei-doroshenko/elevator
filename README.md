@@ -10,4 +10,4 @@ Download and place dependencies in **lib** directory.
 
 ## Compile and Run  
 Prerequisites: check that `lib` directory with sufficient dependencies exists.   
-Run [build.sh](./build.sh)
+Run [build.sh](build_run.sh)
