@@ -4,17 +4,12 @@ import org.sdroshenko.elevator.model.Passenger;
 import org.sdroshenko.elevator.model.Story;
 
 public class TransportationTask extends Thread {
-    private Passenger passenger;
-    private Story startStory;
-    private Story destinationStory;
-    private Controller controller;
+    private final Passenger passenger;
+    private final Story startStory;
+    private final Story destinationStory;
+    private final Controller controller;
 
-    public TransportationTask(Passenger passenger) {
-        super();
-        this.passenger = passenger;
-    }
-
-    public TransportationTask(ThreadGroup group, Passenger passenger, Controller controller) {
+    public TransportationTask(final ThreadGroup group, final Passenger passenger, final Controller controller) {
         super(group, ("TransTaskThread-" + passenger.getID()));
         this.passenger = passenger;
         this.startStory = passenger.getStartStory();
@@ -23,7 +18,10 @@ public class TransportationTask extends Thread {
     }
 
     public void run() {
+
+        // Waiting for the elevator phase
         do {
+
             synchronized (startStory) {
                 while (!startStory.isElevator()) {
                     try {
@@ -35,34 +33,26 @@ public class TransportationTask extends Thread {
                     }
                 }
 
-                if (controller.add(passenger)) {
+                if (controller.pickUp(passenger)) {
                     passenger.setTransportationState(Passenger.TransportationState.IN_PROGRESS);
                     controller.setLoadFlag(controller.isPassengersWayIn());
                     startStory.notifyAll();
-                } else {
-                    try {
-                        startStory.wait();
-                    } catch (InterruptedException e) {
-                        System.out.println(Thread.currentThread().getName() + " interrupt!");
-                        passenger.setTransportationState(Passenger.TransportationState.ABORTED);
-                        break;
+
+                    synchronized (controller) {
+                        controller.notifyAll();
                     }
                 }
-
-                synchronized (controller) {
-                    controller.notifyAll();
-                }
-
             }
+
         } while (passenger.getTransportationState() == Passenger.TransportationState.NOT_STARTED);
 
         synchronized (controller) {
             controller.notifyAll();
         }
 
-
+        // Transportation in the elevator phase
         synchronized (controller) {
-            while (destinationStory.isElevator() == false) {
+            while (!destinationStory.isElevator()) {
                 try {
                     controller.wait();
                 } catch (InterruptedException e) {
@@ -77,6 +67,5 @@ public class TransportationTask extends Thread {
             controller.notifyAll();
         }
 
-
-    }//end of run()
+    } // The END of journey
 }

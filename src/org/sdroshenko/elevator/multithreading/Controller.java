@@ -78,7 +78,7 @@ public class Controller extends Thread implements IController {
 
             while (isPassengersWayOut()) {
                 synchronized (this) {
-                    while (isMoveFlag()) {//Is false at the beginning.
+                    while (isMoveFlag()) { //Is false at the beginning.
                         try {
                             wait();
                         } catch (InterruptedException e) {
@@ -174,7 +174,7 @@ public class Controller extends Thread implements IController {
         contrSupport.firePropertyChange("currentStore", oldStoryID, currentStoryID);
     }
 
-    public synchronized boolean add(Passenger passenger) {
+    public synchronized boolean pickUp(Passenger passenger) {
         Story startStory = passenger.getStartStory();
 
         if (startStory.equals(currentStory) && elevatorContainer.size() != elevatorCapacity) {
