@@ -1,7 +1,5 @@
 package org.sdoroshenko.elevator.multithreading;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,6 +11,7 @@ import java.util.Set;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+import org.sdoroshenko.elevator.gui.ControllerView;
 import org.sdoroshenko.elevator.model.Passenger;
 import org.sdoroshenko.elevator.model.Story;
 import org.sdoroshenko.elevator.util.Configuration;
@@ -30,21 +29,20 @@ public class Controller extends Thread implements IController {
     private int previousStartId;
     private int storiesNumber;
     private int passengersNumber;
-    private int elevatorCapacity;
+    private final int elevatorCapacity;
     private long animationBoost;
-    private Set<Passenger> elevatorContainer = new HashSet<>();
-    private Map<Integer, Story> storiesContainer;
-    private ThreadGroup tGroup;
-    private List<Thread> transportationTasksPool;
+    private final Set<Passenger> elevatorContainer = new HashSet<>();
+    private final Map<Integer, Story> storiesContainer;
+    private final ThreadGroup tGroup;
+    private final List<Thread> transportationTasksPool;
     private Story currentStory;
     private int lastStoryID;
     private boolean moveUp;
     private boolean moveFlag;
     private boolean loadFlag;
-    private PropertyChangeSupport contrSupport = new PropertyChangeSupport(this);
-    private PropertyChangeListener listener;
+    private ControllerView controllerView;
 
-    public Controller(Configuration config, PropertyChangeListener listener) {
+    public Controller(Configuration config) {
         log.info("=====> STARTING CONTROLLER <=====");
         Validator.validate(config);
 
@@ -52,22 +50,18 @@ public class Controller extends Thread implements IController {
         this.elevatorCapacity = config.getElevatorCapacityInt();
         this.passengersNumber = config.getPassengersNumberInt();
         this.animationBoost = config.getAnimationBoost();
-        this.listener = listener;
 
-        lastStoryID = storiesNumber - 1;
+        this.lastStoryID = storiesNumber - 1;
 
-        storiesContainer = createStories(storiesNumber);
+        this.storiesContainer = createStories(storiesNumber);
 
-        tGroup = new ThreadGroup("Group");
-        transportationTasksPool = createTransportationTasks(passengersNumber, storiesNumber, tGroup);
-
-        /**Init ControllerChangeListener */
-        contrSupport.addPropertyChangeListener(listener);
+        this.tGroup = new ThreadGroup("Group");
+        this.transportationTasksPool = createTransportationTasks(passengersNumber, storiesNumber, tGroup);
     }
 
     @Override
     public void run() {
-        contrSupport.firePropertyChange("started", false, true);
+        controllerView.fireExecutionStarted();
 
         for (Thread t : transportationTasksPool) {
             t.start();
@@ -116,8 +110,7 @@ public class Controller extends Thread implements IController {
 
         String valMessage = validateResults();
         log.info(valMessage);
-
-        contrSupport.firePropertyChange("started", true, false);
+        controllerView.fireExecutionOver();
     }
 
     @Override
@@ -173,7 +166,7 @@ public class Controller extends Thread implements IController {
         currentStory = storiesContainer.get(currentStoryID);
         currentStory.setElevator(true);
 
-        contrSupport.firePropertyChange("currentStore", oldStoryID, currentStoryID);
+        controllerView.fireFloorChange(oldStoryID, currentStoryID);
     }
 
     public synchronized boolean pickUp(Passenger passenger) {
@@ -250,12 +243,12 @@ public class Controller extends Thread implements IController {
         return elevatorContainer;
     }
 
-    public void setElevatorContainer(Set<Passenger> elevatorContainer) {
-        this.elevatorContainer = elevatorContainer;
-    }
-
     public Map<Integer, Story> getStoriesContainer() {
         return storiesContainer;
+    }
+
+    public void setControllerView(ControllerView controllerView) {
+        this.controllerView = controllerView;
     }
 
     /////Util methods----------------------------------------------------------

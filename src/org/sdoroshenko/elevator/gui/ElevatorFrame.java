@@ -10,6 +10,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import org.sdoroshenko.elevator.listeners.AnimationListener;
+import org.sdoroshenko.elevator.listeners.ControllerChangeListenerGUI;
+import org.sdoroshenko.elevator.multithreading.Controller;
 import org.sdoroshenko.elevator.multithreading.IController;
 import org.sdoroshenko.elevator.listeners.ButtonActionListener;
 import org.sdoroshenko.elevator.util.Configuration;
@@ -35,9 +37,14 @@ public class ElevatorFrame extends JFrame implements IGUIElevator {
 				config.getAnimationBoost()
 		);
 
-		ButtonActionListener buttonActionListener = new ButtonActionListener(this);
+		PropertyChangeListener controllerChangeListener = new ControllerChangeListenerGUI(this);
+		ControllerView controllerView = new ControllerView(controllerChangeListener);
+
+		Controller controller = new Controller(config);
+		controller.setControllerView(controllerView);
+
+		ButtonActionListener buttonActionListener = new ButtonActionListener(this, controller);
 		controlPanel.getButton().addActionListener(buttonActionListener);
-		
 		add(controlPanel, BorderLayout.NORTH);
 		
 		JSplitPane splitMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true);
@@ -47,9 +54,9 @@ public class ElevatorFrame extends JFrame implements IGUIElevator {
 		logPanel = new LogPanel();
 		splitMain.setBottomComponent(logPanel);
 
-		PropertyChangeListener listener = buttonActionListener.getListener();
-		component = new ViewComponent(this, listener);
-		component.initeComponent();
+
+		component = new ViewComponent(this, controllerChangeListener);
+		component.initComponent();
 		component.repaint();
 	    final JScrollPane scrollPane = new JScrollPane(component);
 		((Component) component).setPreferredSize(new Dimension(ConstantsGUI.COMPONENT_HEIGHT, ConstantsGUI.COMPONENT_WIDTH));
@@ -62,7 +69,7 @@ public class ElevatorFrame extends JFrame implements IGUIElevator {
 	public void initGUI(IController controller) {
 		controlPanel.getSlider().addChangeListener(new AnimationListener(controller));
 		
-		component.initeComponent();
+		component.initComponent();
 		component.setStoriesViewContainer(controller.getStoriesContainer());
 		component.repaint();
 	}

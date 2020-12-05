@@ -16,7 +16,7 @@ public class ConstantsGUI {
 	public static final String LOGGING_FILE_NAME = "elevator-app.log";
 	
 	public static final int STORY_HEIGHT = 40;
-	public static final int LINES_OFFCET = 70;
+	public static final int LINES_OFFSET = 70;
 	
 	public static final double PASSENGER_HEIGHT = 10;
 	public static final double PASSENGER_WIDTH = 10;

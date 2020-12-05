@@ -1,8 +1,13 @@
 package org.sdoroshenko.elevator;
 
 import java.awt.EventQueue;
+import java.beans.PropertyChangeListener;
+import java.util.Map;
 
+import org.sdoroshenko.elevator.gui.ControllerView;
 import org.sdoroshenko.elevator.gui.ElevatorFrame;
+import org.sdoroshenko.elevator.gui.StoryView;
+import org.sdoroshenko.elevator.model.Story;
 import org.sdoroshenko.elevator.multithreading.Controller;
 import org.sdoroshenko.elevator.multithreading.IController;
 import org.sdoroshenko.elevator.listeners.ControllerChangeListenerConsole;
@@ -32,13 +37,14 @@ public class Runner {
 
 		// if config.getAnimationBoost() gt 0, runs app with graphic UI
 		if (config.getAnimationBoost() > 0) {
-			EventQueue.invokeLater(new Runnable() {
-				public void run () {
-					new ElevatorFrame(config);
-				}	
-			});
+			EventQueue.invokeLater(() -> new ElevatorFrame(config));
 		} else {
-			IController controller =  new Controller(config, new ControllerChangeListenerConsole());
+			PropertyChangeListener propertyChangeListener = new ControllerChangeListenerConsole();
+			ControllerView controllerView = new ControllerView(propertyChangeListener);
+			Controller controller =  new Controller(config);
+			controller.setControllerView(controllerView);
+			controller.getStoriesContainer().forEach((key, value) -> new StoryView(value, propertyChangeListener));
+
 			controller.execute();
 		}	
 	}

@@ -22,6 +22,7 @@ public class StoryView {
 		
 		for (Passenger p : story.getDispatchStoryContainer()) {
 			PassengerView passengerView = new PassengerView(p.getDestinationStory().getId(), listener, p);
+			p.setView(passengerView);
 			dispatchStoryContainer.add(passengerView);
 		}
 	}
@@ -31,13 +32,13 @@ public class StoryView {
 		double rightX = bounds.getMaxX();
 		double centerX = bounds.getCenterX();
 		
-		g2.draw(new Line2D.Double (leftX, yPoint, rightX - centerX - ConstantsGUI.LINES_OFFCET, yPoint));
-		g2.draw(new Line2D.Double (leftX + centerX + ConstantsGUI.LINES_OFFCET, yPoint, rightX, yPoint));
+		g2.draw(new Line2D.Double (leftX, yPoint, rightX - centerX - ConstantsGUI.LINES_OFFSET, yPoint));
+		g2.draw(new Line2D.Double (leftX + centerX + ConstantsGUI.LINES_OFFSET, yPoint, rightX, yPoint));
 		
 		yPoint = yPoint - ConstantsGUI.PASSENGER_WIDTH - ConstantsGUI.PASSENGER_VIEW_OFFCET;
 		
-		drawContainer(g2, dispatchStoryContainer, leftX + centerX + ConstantsGUI.LINES_OFFCET, rightX - ConstantsGUI.PASSENGER_WIDTH);
-		drawContainer(g2, arrivalStoryContainer, leftX, rightX - centerX - ConstantsGUI.LINES_OFFCET);
+		drawContainer(g2, dispatchStoryContainer, leftX + centerX + ConstantsGUI.LINES_OFFSET, rightX - ConstantsGUI.PASSENGER_WIDTH);
+		drawContainer(g2, arrivalStoryContainer, leftX, rightX - centerX - ConstantsGUI.LINES_OFFSET);
 	}
 	
 	private void drawContainer (Graphics2D g2, List<PassengerView> container, double lX, double rX) {

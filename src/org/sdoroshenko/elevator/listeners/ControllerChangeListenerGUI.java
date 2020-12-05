@@ -25,7 +25,7 @@ public class ControllerChangeListenerGUI implements PropertyChangeListener {
 
         String message = null;
 
-        if (sourceName.equals("Controller")) {
+        if (sourceName.equals("ControllerView")) {
             String propName = event.getPropertyName();
             if (propName.equals("currentStore")) {
                 int oldStoryId = (Integer) event.getOldValue();
@@ -63,8 +63,6 @@ public class ControllerChangeListenerGUI implements PropertyChangeListener {
                     break;
                 case ABORTED:
                     message = "ABORTING_PASSENGER";
-                    break;
-                case NOT_STARTED:
                     break;
                 default:
                     break;

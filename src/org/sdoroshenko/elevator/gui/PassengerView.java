@@ -22,7 +22,6 @@ public class PassengerView {
 	public PassengerView(final int destinationStoryId, final PropertyChangeListener listener, final Passenger passenger) {
 		this.destinationStoryId = destinationStoryId;
 		this.passenger = passenger;
-		passenger.setView(this);
 		this.changeSupport.addPropertyChangeListener(listener);
 	}
 

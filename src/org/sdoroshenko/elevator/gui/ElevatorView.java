@@ -14,7 +14,7 @@ public class ElevatorView {
 	public ElevatorView (Rectangle2D bounds, int storiesNumber) {
 		x = bounds.getCenterX() - ConstantsGUI.ELEVATOR_WIDTH/2;
 		y = bounds.getMinY() + (storiesNumber * ConstantsGUI.STORY_HEIGHT) - ConstantsGUI.ELEVATOR_HEIGHT;
-		passengers = new ArrayList<PassengerView> ();
+		passengers = new ArrayList<> ();
 	}
 
 	public void move (int fromStory, int toStory) {
@@ -43,7 +43,7 @@ public class ElevatorView {
 		passengers.remove(pv);
 	}
 	
-	public synchronized void draw (Graphics2D g2, int elevatorContainerSize) {
+	public synchronized void draw (Graphics2D g2) {
 		Rectangle2D elevator = new Rectangle2D.Double (x, y, ConstantsGUI.ELEVATOR_WIDTH, ConstantsGUI.ELEVATOR_HEIGHT);
 		g2.draw(elevator);
 		int dx = ConstantsGUI.PASSENGER_VIEW_OFFCET;
