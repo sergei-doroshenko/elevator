@@ -46,10 +46,6 @@ public class TransportationTask extends Thread {
 
         } while (passenger.getTransportationState() == Passenger.TransportationState.NOT_STARTED);
 
-        synchronized (controller) {
-            controller.notifyAll();
-        }
-
         // Transportation in the elevator phase
         synchronized (controller) {
             while (!destinationStory.isElevator()) {
