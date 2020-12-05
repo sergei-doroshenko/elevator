@@ -1,7 +1,7 @@
 package org.sdoroshenko.elevator.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import org.sdoroshenko.elevator.gui.PassengerView;
+
 import java.util.Objects;
 
 /**
@@ -15,17 +15,16 @@ public class Passenger {
 	private final Story startStory;
 	private final Story destinationStory;
 	private final boolean moveUp;
-	private final PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
+	private PassengerView view;
 
 	private TransportationState transportationState;
 
-	public Passenger(final Story startStory, final Story destinationStory, final PropertyChangeListener listener) {
+	public Passenger(final Story startStory, final Story destinationStory) {
 		this.id = nextID++;
 		this.startStory = startStory;
 		this.destinationStory = destinationStory;
 		this.moveUp = destinationStory.getId() > startStory.getId();
 		setTransportationState(TransportationState.NOT_STARTED);
-		this.changeSupport.addPropertyChangeListener(listener);
 		startStory.add(this);
 	}
 
@@ -52,11 +51,18 @@ public class Passenger {
 	public void setTransportationState(TransportationState newState) {
 		TransportationState oldState = transportationState;
 		transportationState = newState;
-		changeSupport.firePropertyChange("transportationState", oldState, newState);
+
+		if (view != null) {
+			view.fireTransportationStateChange(oldState, newState);
+		}
 	}
 	
 	public boolean isMoveUp() {
 		return moveUp;
+	}
+
+	public void setView(PassengerView view) {
+		this.view = view;
 	}
 
 	@Override

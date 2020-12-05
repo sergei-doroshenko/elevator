@@ -290,7 +290,7 @@ public class Controller extends Thread implements IController {
             int destinationId = generatePassengerDestinationStoryId(startStory);
             Story destinationStory = storiesContainer.get(destinationId);
 
-            Passenger passenger = new Passenger(startStory, destinationStory, listener);
+            Passenger passenger = new Passenger(startStory, destinationStory);
 
             Thread t = new TransportationTask(tg, passenger, this);
             thr.add(t);

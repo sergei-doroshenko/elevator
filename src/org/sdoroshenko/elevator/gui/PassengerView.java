@@ -1,5 +1,7 @@
 package org.sdoroshenko.elevator.gui;
 
+import org.sdoroshenko.elevator.model.Passenger;
+
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
@@ -15,9 +17,12 @@ public class PassengerView {
 	private int rule = AlphaComposite.SRC_OVER;
 	private float alpha = 0.9f;
 	private final PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
+	private final Passenger passenger;
 	
-	public PassengerView(final int destinationStoryId, final PropertyChangeListener listener) {
+	public PassengerView(final int destinationStoryId, final PropertyChangeListener listener, final Passenger passenger) {
 		this.destinationStoryId = destinationStoryId;
+		this.passenger = passenger;
+		passenger.setView(this);
 		this.changeSupport.addPropertyChangeListener(listener);
 	}
 
@@ -36,5 +41,13 @@ public class PassengerView {
 		g2.drawString(destinationStoryId + "", 
 				(int) rect.getMinX() + ConstantsGUI.PASSENGER_VIEW_OFFCET, 
 				(int) rect.getMaxY() - ConstantsGUI.PASSENGER_VIEW_OFFCET);
+	}
+
+	public Passenger getPassenger() {
+		return passenger;
+	}
+
+	public void fireTransportationStateChange(Passenger.TransportationState oldState, Passenger.TransportationState newState) {
+		this.changeSupport.firePropertyChange("transportationState", oldState, newState);
 	}
 }

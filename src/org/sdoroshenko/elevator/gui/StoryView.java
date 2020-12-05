@@ -21,7 +21,8 @@ public class StoryView {
 		arrivalStoryContainer = new ArrayList<> ();
 		
 		for (Passenger p : story.getDispatchStoryContainer()) {
-			dispatchStoryContainer.add(new PassengerView(p.getDestinationStory().getId(), listener));
+			PassengerView passengerView = new PassengerView(p.getDestinationStory().getId(), listener, p);
+			dispatchStoryContainer.add(passengerView);
 		}
 	}
 	
