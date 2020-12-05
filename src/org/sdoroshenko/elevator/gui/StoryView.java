@@ -3,6 +3,7 @@ package org.sdoroshenko.elevator.gui;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +15,13 @@ public class StoryView {
 	private List<PassengerView> dispatchStoryContainer;
 	private List<PassengerView> arrivalStoryContainer;
 
-	public StoryView(Story story) {
+	public StoryView(final Story story, final PropertyChangeListener listener) {
 		super();
 		dispatchStoryContainer = new ArrayList<> ();
 		arrivalStoryContainer = new ArrayList<> ();
 		
 		for (Passenger p : story.getDispatchStoryContainer()) {
-			dispatchStoryContainer.add(new PassengerView(p.getDestinationStory().getId()));
+			dispatchStoryContainer.add(new PassengerView(p.getDestinationStory().getId(), listener));
 		}
 	}
 	

@@ -3,6 +3,7 @@ package org.sdoroshenko.elevator.gui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -33,8 +34,9 @@ public class ElevatorFrame extends JFrame implements IGUIElevator {
 				config.getPassengersNumberStr(),
 				config.getAnimationBoost()
 		);
-		
-		controlPanel.getButton().addActionListener(new ButtonActionListener(this));
+
+		ButtonActionListener buttonActionListener = new ButtonActionListener(this);
+		controlPanel.getButton().addActionListener(buttonActionListener);
 		
 		add(controlPanel, BorderLayout.NORTH);
 		
@@ -44,17 +46,16 @@ public class ElevatorFrame extends JFrame implements IGUIElevator {
 		
 		logPanel = new LogPanel();
 		splitMain.setBottomComponent(logPanel);
-		
-		component = new ViewComponent(this);
+
+		PropertyChangeListener listener = buttonActionListener.getListener();
+		component = new ViewComponent(this, listener);
 		component.initeComponent();
 		component.repaint();
-	    final JScrollPane scrollPane = new JScrollPane((Component) component);
-		((Component) component).setPreferredSize(new Dimension(ConstantsGUI.COMPONENT_HEIGHT, 
-				ConstantsGUI.COMPONENT_WIDTH));
+	    final JScrollPane scrollPane = new JScrollPane(component);
+		((Component) component).setPreferredSize(new Dimension(ConstantsGUI.COMPONENT_HEIGHT, ConstantsGUI.COMPONENT_WIDTH));
 	    splitMain.setTopComponent(scrollPane);
 	    splitMain.setDividerLocation(300);
 		getContentPane().add(splitMain, BorderLayout.CENTER);
-		
 	}
 	
 	@Override
@@ -98,7 +99,6 @@ public class ElevatorFrame extends JFrame implements IGUIElevator {
 	@Override
 	public void changeButtonText(String buttonText) {
 		controlPanel.getButton().setText(buttonText);
-		
 	}
 	
 	@Override

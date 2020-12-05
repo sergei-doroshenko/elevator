@@ -3,6 +3,7 @@ package org.sdoroshenko.elevator.gui;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -18,11 +19,13 @@ public class ViewComponent extends JComponent {
 	private ElevatorView elevator;
 	private Map <Integer, StoryView> storiesViewContainer;
 	private int storiesNumber;
+	private final PropertyChangeListener listener;
 	
-	public ViewComponent(ElevatorFrame frame) {
+	public ViewComponent(final ElevatorFrame frame, final PropertyChangeListener listener) {
 		this.setFrame(frame);
-		storiesNumber = Integer.parseInt(frame.getControlPanel().getStroriesNumberFild().getText());
-		storiesViewContainer = new HashMap <Integer, StoryView> ();
+		this.storiesNumber = Integer.parseInt(frame.getControlPanel().getStroriesNumberFild().getText());
+		this.storiesViewContainer = new HashMap <> ();
+		this.listener = listener;
 	}
 	
 	public void initeComponent () {
@@ -36,7 +39,7 @@ public class ViewComponent extends JComponent {
 		Iterator<Map.Entry<Integer, Story>> i = setValue.iterator();
 		while (i.hasNext()) {
 			Map.Entry<Integer, Story> me = i.next();
-			storiesViewContainer.put(me.getKey(), new StoryView (me.getValue()));
+			storiesViewContainer.put(me.getKey(), new StoryView (me.getValue(), listener));
 		}
 	}
 

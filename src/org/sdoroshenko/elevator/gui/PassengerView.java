@@ -5,16 +5,20 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 public class PassengerView {
 	private Rectangle2D rect;
-	private int destinationStoryId;
+	private final int destinationStoryId;
 	private Font font = new Font("Dialog", Font.PLAIN, 9);
 	private int rule = AlphaComposite.SRC_OVER;
 	private float alpha = 0.9f;
+	private final PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 	
-	public PassengerView(int destinationStoryId) {
+	public PassengerView(final int destinationStoryId, final PropertyChangeListener listener) {
 		this.destinationStoryId = destinationStoryId;
+		this.changeSupport.addPropertyChangeListener(listener);
 	}
 
 	public int getDestinationStoryId() {
