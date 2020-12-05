@@ -10,7 +10,7 @@ import org.sdroshenko.elevator.gui.ConstantsGUI;
 import org.sdroshenko.elevator.gui.LogConsole;
 import org.sdroshenko.elevator.ifaces.IController;
 import org.sdroshenko.elevator.ifaces.IGUIElevator;
-import org.sdroshenko.elevator.model.Controller;
+import org.sdroshenko.elevator.multithreading.Controller;
 
 public class ButtonActionListener implements ActionListener {
 	

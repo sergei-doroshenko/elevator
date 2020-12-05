@@ -3,6 +3,11 @@ package org.sdroshenko.elevator.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+/**
+ * The elevator passenger.
+ *
+ * @author Sergei Doroshenko
+ */
 public class Passenger {
 	private static int nextID = 0;
 	private int id;

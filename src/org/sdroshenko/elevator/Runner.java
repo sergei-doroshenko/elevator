@@ -5,7 +5,7 @@ import java.awt.EventQueue;
 import org.sdroshenko.elevator.gui.ElevatorFrame;
 import org.sdroshenko.elevator.ifaces.IController;
 import org.sdroshenko.elevator.listeners.ControllerChangeListenerConsole;
-import org.sdroshenko.elevator.model.Controller;
+import org.sdroshenko.elevator.multithreading.Controller;
 import org.sdroshenko.elevator.util.Configuration;
 import org.sdroshenko.elevator.util.Validator;
 import org.apache.logging.log4j.Logger;
