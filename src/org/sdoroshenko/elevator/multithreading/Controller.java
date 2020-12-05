@@ -40,9 +40,9 @@ public class Controller extends Thread implements IController {
     private boolean moveUp;
     private boolean moveFlag;
     private boolean loadFlag;
-    private ControllerView controllerView;
+    private final ControllerView controllerView;
 
-    public Controller(Configuration config) {
+    public Controller(final Configuration config, final ControllerView controllerView) {
         log.info("=====> STARTING CONTROLLER <=====");
         Validator.validate(config);
 
@@ -57,6 +57,8 @@ public class Controller extends Thread implements IController {
 
         this.tGroup = new ThreadGroup("Group");
         this.transportationTasksPool = createTransportationTasks(passengersNumber, storiesNumber, tGroup);
+
+        this.controllerView = controllerView;
     }
 
     @Override
@@ -245,10 +247,6 @@ public class Controller extends Thread implements IController {
 
     public Map<Integer, Story> getStoriesContainer() {
         return storiesContainer;
-    }
-
-    public void setControllerView(ControllerView controllerView) {
-        this.controllerView = controllerView;
     }
 
     /////Util methods----------------------------------------------------------

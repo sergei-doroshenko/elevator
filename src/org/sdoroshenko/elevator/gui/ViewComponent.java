@@ -31,7 +31,6 @@ public class ViewComponent extends JComponent {
     public void initComponent() {
         storiesNumber = Integer.parseInt(frame.getControlPanel().getStroriesNumberFild().getText());
         elevator = new ElevatorView(getBounds(), storiesNumber);
-
     }
 
     public void setStoriesViewContainer(Map<Integer, Story> storiesContainer) {

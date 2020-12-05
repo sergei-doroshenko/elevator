@@ -41,8 +41,7 @@ public class Runner {
 		} else {
 			PropertyChangeListener propertyChangeListener = new ControllerChangeListenerConsole();
 			ControllerView controllerView = new ControllerView(propertyChangeListener);
-			Controller controller =  new Controller(config);
-			controller.setControllerView(controllerView);
+			Controller controller =  new Controller(config, controllerView);
 			controller.getStoriesContainer().forEach((key, value) -> new StoryView(value, propertyChangeListener));
 
 			controller.execute();

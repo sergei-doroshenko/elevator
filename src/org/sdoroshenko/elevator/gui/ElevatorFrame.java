@@ -40,8 +40,7 @@ public class ElevatorFrame extends JFrame implements IGUIElevator {
 		PropertyChangeListener controllerChangeListener = new ControllerChangeListenerGUI(this);
 		ControllerView controllerView = new ControllerView(controllerChangeListener);
 
-		Controller controller = new Controller(config);
-		controller.setControllerView(controllerView);
+		Controller controller = new Controller(config, controllerView);
 
 		ButtonActionListener buttonActionListener = new ButtonActionListener(this, controller);
 		controlPanel.getButton().addActionListener(buttonActionListener);
@@ -53,7 +52,6 @@ public class ElevatorFrame extends JFrame implements IGUIElevator {
 		
 		logPanel = new LogPanel();
 		splitMain.setBottomComponent(logPanel);
-
 
 		component = new ViewComponent(this, controllerChangeListener);
 		component.initComponent();
