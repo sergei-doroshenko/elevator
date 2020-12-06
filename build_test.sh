@@ -13,4 +13,5 @@ cp src/*.properties src/*.xml dist
 javac -cp dist $(find test -name "*.java") -d dist
 
 # Run
-java -cp "lib/*:dist" org.sdoroshenko.elevator.LauncherTest
+#java -cp "lib/*:dist" org.sdoroshenko.elevator.LauncherTest
+java -cp "lib/*:dist" org.sdoroshenko.elevator.multithreading.DispatcherTest

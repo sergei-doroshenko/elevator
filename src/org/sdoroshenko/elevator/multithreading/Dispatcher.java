@@ -1,5 +1,6 @@
 package org.sdoroshenko.elevator.multithreading;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +75,7 @@ public class Dispatcher extends Thread implements Controller {
         currentStory = storiesContainer.get(0);
         currentStory.setElevator(true);
         moveUp = true;
+        log.info(this::getTransportationState);
 
         while (tGroup.activeCount() > 0) {
 
@@ -112,8 +114,8 @@ public class Dispatcher extends Thread implements Controller {
             }
         }
 
-        String valMessage = validateResults();
-        log.info(valMessage);
+        Map<String, Integer> transportationState = getTransportationState();
+        log.info(transportationState);
         controllerView.fireExecutionOver();
     }
 
@@ -131,18 +133,23 @@ public class Dispatcher extends Thread implements Controller {
     }
 
     @Override
-    public String validateResults() {
-        int despCon = 0;
-        int arrCon = 0;
-        Set<Map.Entry<Integer, Story>> setValue = storiesContainer.entrySet();
-        for (Map.Entry<Integer, Story> me : setValue) {
-            Story s = me.getValue();
-            despCon += s.getDispatchStoryContainer().size();
-            arrCon += s.getArrivalStoryContainer().size();
-        }
-        return "despatchStoryContainers=" + despCon + " arrivalStoryContainers=" + arrCon
-                + " elevatorContainer=" + elevatorContainer.size()
-                + " passengersNumber=" + passengersNumber;
+    public Map<String, Integer> getTransportationState() {
+
+        int[] storiesContainers = storiesContainer.values().stream()
+                .reduce(new int[]{0, 0}, (a, b) -> {
+                    a[0] += b.getDispatchStoryContainer().size();
+                    a[1] += b.getArrivalStoryContainer().size();
+                    return a;
+                }, (a,b) -> new int[0]);
+
+        Map<String, Integer> result = new HashMap<>();
+        result.put("Active threads", tGroup.activeCount());
+        result.put("dispatchStoryContainers", storiesContainers[0]);
+        result.put("arrivalStoryContainers", storiesContainers[1]);
+        result.put("elevatorContainer", elevatorContainer.size());
+        result.put("passengersNumber", passengersNumber);
+
+        return result;
     }
 
     ////Control methods ----------------------------------------------------------
@@ -198,8 +205,8 @@ public class Dispatcher extends Thread implements Controller {
     }
 
     public synchronized boolean isPassengersWayIn() {
-		return elevatorContainer.size() != elevatorCapacity && currentStory.isCompanion(moveUp);
-	}
+        return elevatorContainer.size() != elevatorCapacity && currentStory.isCompanion(moveUp);
+    }
 
     public synchronized boolean isPassengersWayOut() {
         for (Passenger p : elevatorContainer) {
