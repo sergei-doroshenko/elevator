@@ -38,9 +38,9 @@ public class ElevatorFrame extends JFrame implements IGUIElevator {
 		);
 
 		PropertyChangeListener controllerChangeListener = new ControllerChangeListenerGUI(this);
-		ControllerView controllerView = new ControllerView(controllerChangeListener);
+		SwingControllerView swingControllerView = new SwingControllerView(controllerChangeListener);
 
-		Controller controller = new Controller(config, controllerView);
+		Controller controller = new Controller(config, swingControllerView);
 
 		ButtonActionListener buttonActionListener = new ButtonActionListener(this, controller);
 		controlPanel.getButton().addActionListener(buttonActionListener);

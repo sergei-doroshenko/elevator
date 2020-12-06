@@ -12,8 +12,8 @@ import org.sdoroshenko.elevator.model.Story;
 
 public class StoryView {
 	private double  yPoint = 50;
-	private List<PassengerView> dispatchStoryContainer;
-	private List<PassengerView> arrivalStoryContainer;
+	private List<SwingPassengerView> dispatchStoryContainer;
+	private List<SwingPassengerView> arrivalStoryContainer;
 
 	public StoryView(final Story story, final PropertyChangeListener listener) {
 		super();
@@ -21,9 +21,9 @@ public class StoryView {
 		arrivalStoryContainer = new ArrayList<> ();
 		
 		for (Passenger p : story.getDispatchStoryContainer()) {
-			PassengerView passengerView = new PassengerView(p.getDestinationStory().getId(), listener, p);
-			p.setView(passengerView);
-			dispatchStoryContainer.add(passengerView);
+			SwingPassengerView swingPassengerView = new SwingPassengerView(p.getDestinationStory().getId(), listener, p);
+			p.setView(swingPassengerView);
+			dispatchStoryContainer.add(swingPassengerView);
 		}
 	}
 	
@@ -41,13 +41,13 @@ public class StoryView {
 		drawContainer(g2, arrivalStoryContainer, leftX, rightX - centerX - ConstantsGUI.LINES_OFFSET);
 	}
 	
-	private void drawContainer (Graphics2D g2, List<PassengerView> container, double lX, double rX) {
+	private void drawContainer (Graphics2D g2, List<SwingPassengerView> container, double lX, double rX) {
 		
 		double y = yPoint - ConstantsGUI.PASSENGER_WIDTH - ConstantsGUI.PASSENGER_VIEW_OFFCET;
 		double dx = 0;
 		double dy = ConstantsGUI.PASSENGER_WIDTH + ConstantsGUI.PASSENGER_VIEW_OFFCET;
 		
-		for (PassengerView pv : container) {
+		for (SwingPassengerView pv : container) {
 			if (lX + dx > rX) {
 				dx = ConstantsGUI.PASSENGER_VIEW_OFFCET;
 				dy -= ConstantsGUI.PASSENGER_HEIGHT + ConstantsGUI.PASSENGER_VIEW_OFFCET;
@@ -57,12 +57,12 @@ public class StoryView {
 		}
 	}
 	
-	public synchronized void movePassengerView (PassengerView pv) {
+	public synchronized void movePassengerView (SwingPassengerView pv) {
 		dispatchStoryContainer.remove(pv);
 	}
 	
-	public synchronized PassengerView getPassengerView (int destinationStoryId) {
-		for (PassengerView pv : dispatchStoryContainer) {
+	public synchronized SwingPassengerView getPassengerView (int destinationStoryId) {
+		for (SwingPassengerView pv : dispatchStoryContainer) {
 			if (pv.getDestinationStoryId() == destinationStoryId) {
 				return pv;
 			}	
@@ -70,7 +70,7 @@ public class StoryView {
 		return null;
 	}
 	
-	public synchronized void dropOutPassengerView (PassengerView pv) {
+	public synchronized void dropOutPassengerView (SwingPassengerView pv) {
 		arrivalStoryContainer.add(pv);
 	}
 

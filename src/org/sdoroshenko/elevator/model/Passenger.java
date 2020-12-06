@@ -1,6 +1,7 @@
 package org.sdoroshenko.elevator.model;
 
 import org.sdoroshenko.elevator.gui.PassengerView;
+import org.sdoroshenko.elevator.gui.SwingPassengerView;
 
 import java.util.Objects;
 
@@ -61,7 +62,7 @@ public class Passenger {
 		return moveUp;
 	}
 
-	public void setView(PassengerView view) {
+	public void setView(SwingPassengerView view) {
 		this.view = view;
 	}
 

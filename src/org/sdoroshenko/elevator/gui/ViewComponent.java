@@ -16,7 +16,7 @@ import org.sdoroshenko.elevator.model.Story;
 public class ViewComponent extends JComponent {
     private static final long serialVersionUID = 1L;
     private ElevatorFrame frame;
-    private ElevatorView elevator;
+    private SwingElevatorView elevator;
     private Map<Integer, StoryView> storiesViewContainer;
     private int storiesNumber;
     private final PropertyChangeListener listener;
@@ -30,7 +30,7 @@ public class ViewComponent extends JComponent {
 
     public void initComponent() {
         storiesNumber = Integer.parseInt(frame.getControlPanel().getStroriesNumberFild().getText());
-        elevator = new ElevatorView(getBounds(), storiesNumber);
+        elevator = new SwingElevatorView(getBounds(), storiesNumber);
     }
 
     public void setStoriesViewContainer(Map<Integer, Story> storiesContainer) {
@@ -64,19 +64,19 @@ public class ViewComponent extends JComponent {
 
     public void movePassengerView(int startStoryId, int destinationStoryId) {
         StoryView sv = storiesViewContainer.get(startStoryId);
-        PassengerView pv = sv.getPassengerView(destinationStoryId);
+        SwingPassengerView pv = sv.getPassengerView(destinationStoryId);
         sv.movePassengerView(pv);
         elevator.addPassengerView(pv);
     }
 
     public void dropOutPassengerView(int destinationStoryId) {
         StoryView sv = storiesViewContainer.get(destinationStoryId);
-        PassengerView pv = elevator.getPassengerView(destinationStoryId);
+        SwingPassengerView pv = elevator.getPassengerView(destinationStoryId);
         elevator.dropOutPassengersView(pv);
         sv.dropOutPassengerView(pv);
     }
 
-    public ElevatorView getElevatorView() {
+    public SwingElevatorView getElevatorView() {
         return elevator;
     }
 

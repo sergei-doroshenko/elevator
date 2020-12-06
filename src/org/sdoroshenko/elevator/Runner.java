@@ -2,14 +2,11 @@ package org.sdoroshenko.elevator;
 
 import java.awt.EventQueue;
 import java.beans.PropertyChangeListener;
-import java.util.Map;
 
-import org.sdoroshenko.elevator.gui.ControllerView;
+import org.sdoroshenko.elevator.gui.SwingControllerView;
 import org.sdoroshenko.elevator.gui.ElevatorFrame;
 import org.sdoroshenko.elevator.gui.StoryView;
-import org.sdoroshenko.elevator.model.Story;
 import org.sdoroshenko.elevator.multithreading.Controller;
-import org.sdoroshenko.elevator.multithreading.IController;
 import org.sdoroshenko.elevator.listeners.ControllerChangeListenerConsole;
 import org.sdoroshenko.elevator.util.Configuration;
 import org.sdoroshenko.elevator.util.Validator;
@@ -40,8 +37,8 @@ public class Runner {
 			EventQueue.invokeLater(() -> new ElevatorFrame(config));
 		} else {
 			PropertyChangeListener propertyChangeListener = new ControllerChangeListenerConsole();
-			ControllerView controllerView = new ControllerView(propertyChangeListener);
-			Controller controller =  new Controller(config, controllerView);
+			SwingControllerView swingControllerView = new SwingControllerView(propertyChangeListener);
+			Controller controller =  new Controller(config, swingControllerView);
 			controller.getStoriesContainer().forEach((key, value) -> new StoryView(value, propertyChangeListener));
 
 			controller.execute();

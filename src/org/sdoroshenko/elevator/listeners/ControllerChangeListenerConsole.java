@@ -6,7 +6,7 @@ import java.beans.PropertyChangeListener;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-import org.sdoroshenko.elevator.gui.PassengerView;
+import org.sdoroshenko.elevator.gui.SwingPassengerView;
 import org.sdoroshenko.elevator.model.Passenger;
 
 public class ControllerChangeListenerConsole implements PropertyChangeListener {
@@ -19,7 +19,7 @@ public class ControllerChangeListenerConsole implements PropertyChangeListener {
 	public void propertyChange(PropertyChangeEvent event) {
 		String sourceName = event.getSource().getClass().getSimpleName();
 		String message = null;
-		if (sourceName.equals("ControllerView")) {
+		if (sourceName.equals("SwingControllerView")) {
 			String propName = event.getPropertyName();
 			if (propName.equals("currentStore")) {
 				message = "MOVING_ELEVATOR (from story-" 
@@ -34,8 +34,8 @@ public class ControllerChangeListenerConsole implements PropertyChangeListener {
 				
 			}
 			
-		} else if (sourceName.equals("PassengerView")) {
-			PassengerView view = (PassengerView) event.getSource();
+		} else if (sourceName.equals("SwingPassengerView")) {
+			SwingPassengerView view = (SwingPassengerView) event.getSource();
 			Passenger p = view.getPassenger();
 			Passenger.TransportationState newState = (Passenger.TransportationState) event.getNewValue();
 			int id = p.getID();

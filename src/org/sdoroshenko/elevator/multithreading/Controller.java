@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 import org.sdoroshenko.elevator.gui.ControllerView;
+import org.sdoroshenko.elevator.gui.SwingControllerView;
 import org.sdoroshenko.elevator.model.Passenger;
 import org.sdoroshenko.elevator.model.Story;
 import org.sdoroshenko.elevator.util.Configuration;
@@ -40,9 +41,9 @@ public class Controller extends Thread implements IController {
     private boolean moveUp;
     private boolean moveFlag;
     private boolean loadFlag;
-    private final ControllerView controllerView;
+    private final ControllerView swingControllerView;
 
-    public Controller(final Configuration config, final ControllerView controllerView) {
+    public Controller(final Configuration config, final SwingControllerView swingControllerView) {
         log.info("=====> STARTING CONTROLLER <=====");
         Validator.validate(config);
 
@@ -58,12 +59,12 @@ public class Controller extends Thread implements IController {
         this.tGroup = new ThreadGroup("Group");
         this.transportationTasksPool = createTransportationTasks(passengersNumber, storiesNumber, tGroup);
 
-        this.controllerView = controllerView;
+        this.swingControllerView = swingControllerView;
     }
 
     @Override
     public void run() {
-        controllerView.fireExecutionStarted();
+        swingControllerView.fireExecutionStarted();
 
         for (Thread t : transportationTasksPool) {
             t.start();
@@ -112,7 +113,7 @@ public class Controller extends Thread implements IController {
 
         String valMessage = validateResults();
         log.info(valMessage);
-        controllerView.fireExecutionOver();
+        swingControllerView.fireExecutionOver();
     }
 
     @Override
@@ -168,7 +169,7 @@ public class Controller extends Thread implements IController {
         currentStory = storiesContainer.get(currentStoryID);
         currentStory.setElevator(true);
 
-        controllerView.fireFloorChange(oldStoryID, currentStoryID);
+        swingControllerView.fireFloorChange(oldStoryID, currentStoryID);
     }
 
     public synchronized boolean pickUp(Passenger passenger) {

@@ -5,13 +5,13 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ElevatorView {
+public class SwingElevatorView {
 	
-	private List<PassengerView> passengers;
+	private List<SwingPassengerView> passengers;
 	private double x;
 	private double y;
 	
-	public ElevatorView (Rectangle2D bounds, int storiesNumber) {
+	public SwingElevatorView(Rectangle2D bounds, int storiesNumber) {
 		x = bounds.getCenterX() - ConstantsGUI.ELEVATOR_WIDTH/2;
 		y = bounds.getMinY() + (storiesNumber * ConstantsGUI.STORY_HEIGHT) - ConstantsGUI.ELEVATOR_HEIGHT;
 		passengers = new ArrayList<> ();
@@ -26,12 +26,12 @@ public class ElevatorView {
 	    } 
 	}
 	
-	public synchronized void addPassengerView (PassengerView pv) {
+	public synchronized void addPassengerView (SwingPassengerView pv) {
 		passengers.add(pv);
 	}
 	
-	public synchronized PassengerView getPassengerView (int destinationStoryId) {
-		for (PassengerView pv : passengers) {
+	public synchronized SwingPassengerView getPassengerView (int destinationStoryId) {
+		for (SwingPassengerView pv : passengers) {
 			if (pv.getDestinationStoryId() == destinationStoryId) {
 				return pv;
 			}	
@@ -39,7 +39,7 @@ public class ElevatorView {
 		return null;
 	}
 	
-	public synchronized void  dropOutPassengersView (PassengerView pv) {
+	public synchronized void  dropOutPassengersView (SwingPassengerView pv) {
 		passengers.remove(pv);
 	}
 	
@@ -48,7 +48,7 @@ public class ElevatorView {
 		g2.draw(elevator);
 		int dx = ConstantsGUI.PASSENGER_VIEW_OFFCET;
 		int dy = ConstantsGUI.PASSENGER_VIEW_OFFCET;
-		for (PassengerView pv : passengers) {
+		for (SwingPassengerView pv : passengers) {
 			if (x + dx > elevator.getMaxX() - ConstantsGUI.PASSENGER_WIDTH) {
 				dx = 2;
 				dy += ConstantsGUI.PASSENGER_HEIGHT + ConstantsGUI.PASSENGER_VIEW_OFFCET;

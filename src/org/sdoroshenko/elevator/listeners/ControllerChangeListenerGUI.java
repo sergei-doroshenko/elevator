@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 
 import org.sdoroshenko.elevator.gui.ConstantsGUI;
 import org.sdoroshenko.elevator.gui.IGUIElevator;
-import org.sdoroshenko.elevator.gui.PassengerView;
+import org.sdoroshenko.elevator.gui.SwingPassengerView;
 import org.sdoroshenko.elevator.model.Passenger;
 
 
@@ -25,7 +25,7 @@ public class ControllerChangeListenerGUI implements PropertyChangeListener {
 
         String message = null;
 
-        if (sourceName.equals("ControllerView")) {
+        if (sourceName.equals("SwingControllerView")) {
             String propName = event.getPropertyName();
             if (propName.equals("currentStore")) {
                 int oldStoryId = (Integer) event.getOldValue();
@@ -42,8 +42,8 @@ public class ControllerChangeListenerGUI implements PropertyChangeListener {
                     message = "STARTING_TRANSPORTATION";
                 }
             }
-        } else if (sourceName.equals("PassengerView")) {
-            PassengerView view = (PassengerView) event.getSource();
+        } else if (sourceName.equals("SwingPassengerView")) {
+            SwingPassengerView view = (SwingPassengerView) event.getSource();
             Passenger p = view.getPassenger();
             Passenger.TransportationState newState = (Passenger.TransportationState) event.getNewValue();
             int id = p.getID();
