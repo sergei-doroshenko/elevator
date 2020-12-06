@@ -2,12 +2,16 @@ package org.sdoroshenko.elevator;
 
 import java.awt.EventQueue;
 import java.beans.PropertyChangeListener;
+import java.util.Map;
 
+import org.sdoroshenko.elevator.gui.ControllerView;
 import org.sdoroshenko.elevator.gui.SwingControllerView;
 import org.sdoroshenko.elevator.gui.ElevatorFrame;
 import org.sdoroshenko.elevator.gui.StoryView;
-import org.sdoroshenko.elevator.multithreading.Controller;
+import org.sdoroshenko.elevator.model.Story;
+import org.sdoroshenko.elevator.multithreading.Dispatcher;
 import org.sdoroshenko.elevator.listeners.ControllerChangeListenerConsole;
+import org.sdoroshenko.elevator.multithreading.DispatcherInitializer;
 import org.sdoroshenko.elevator.util.Configuration;
 import org.sdoroshenko.elevator.util.Validator;
 import org.apache.logging.log4j.Logger;
@@ -37,11 +41,15 @@ public class Runner {
 			EventQueue.invokeLater(() -> new ElevatorFrame(config));
 		} else {
 			PropertyChangeListener propertyChangeListener = new ControllerChangeListenerConsole();
-			SwingControllerView swingControllerView = new SwingControllerView(propertyChangeListener);
-			Controller controller =  new Controller(config, swingControllerView);
-			controller.getStoriesContainer().forEach((key, value) -> new StoryView(value, propertyChangeListener));
+			ControllerView controllerView = new SwingControllerView(propertyChangeListener);
 
-			controller.execute();
+			DispatcherInitializer dispatcherInitializer = new DispatcherInitializer();
+			Map<Integer, Story> stories = dispatcherInitializer.createStories(config.getStoriesNumberInt());
+			Dispatcher dispatcher = new Dispatcher(config, controllerView, stories);
+			dispatcherInitializer.createTransportationTasks(dispatcher);
+			dispatcher.getStoriesContainer().forEach((key, value) -> new StoryView(value, propertyChangeListener));
+
+			dispatcher.execute();
 		}	
 	}
 }

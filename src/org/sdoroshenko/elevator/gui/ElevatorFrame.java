@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.beans.PropertyChangeListener;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -11,9 +12,11 @@ import javax.swing.JSplitPane;
 
 import org.sdoroshenko.elevator.listeners.AnimationListener;
 import org.sdoroshenko.elevator.listeners.ControllerChangeListenerGUI;
+import org.sdoroshenko.elevator.model.Story;
+import org.sdoroshenko.elevator.multithreading.Dispatcher;
 import org.sdoroshenko.elevator.multithreading.Controller;
-import org.sdoroshenko.elevator.multithreading.IController;
 import org.sdoroshenko.elevator.listeners.ButtonActionListener;
+import org.sdoroshenko.elevator.multithreading.DispatcherInitializer;
 import org.sdoroshenko.elevator.util.Configuration;
 
 public class ElevatorFrame extends JFrame implements IGUIElevator {
@@ -40,9 +43,12 @@ public class ElevatorFrame extends JFrame implements IGUIElevator {
 		PropertyChangeListener controllerChangeListener = new ControllerChangeListenerGUI(this);
 		SwingControllerView swingControllerView = new SwingControllerView(controllerChangeListener);
 
-		Controller controller = new Controller(config, swingControllerView);
+		DispatcherInitializer dispatcherInitializer = new DispatcherInitializer();
+		Map<Integer, Story> stories = dispatcherInitializer.createStories(config.getStoriesNumberInt());
+		Dispatcher dispatcher = new Dispatcher(config, swingControllerView, stories);
+		dispatcherInitializer.createTransportationTasks(dispatcher);
 
-		ButtonActionListener buttonActionListener = new ButtonActionListener(this, controller);
+		ButtonActionListener buttonActionListener = new ButtonActionListener(this, dispatcher);
 		controlPanel.getButton().addActionListener(buttonActionListener);
 		add(controlPanel, BorderLayout.NORTH);
 		
@@ -57,14 +63,14 @@ public class ElevatorFrame extends JFrame implements IGUIElevator {
 		component.initComponent();
 		component.repaint();
 	    final JScrollPane scrollPane = new JScrollPane(component);
-		((Component) component).setPreferredSize(new Dimension(ConstantsGUI.COMPONENT_HEIGHT, ConstantsGUI.COMPONENT_WIDTH));
+		((Component) component).setPreferredSize(new Dimension(ConstantsGUI.COMPONENT_WIDTH, ConstantsGUI.COMPONENT_HEIGHT));
 	    splitMain.setTopComponent(scrollPane);
 	    splitMain.setDividerLocation(300);
 		getContentPane().add(splitMain, BorderLayout.CENTER);
 	}
 	
 	@Override
-	public void initGUI(IController controller) {
+	public void initGUI(Controller controller) {
 		controlPanel.getSlider().addChangeListener(new AnimationListener(controller));
 		
 		component.initComponent();

@@ -8,15 +8,15 @@ import javax.swing.JButton;
 
 import org.sdoroshenko.elevator.gui.ConstantsGUI;
 import org.sdoroshenko.elevator.gui.IGUIElevator;
-import org.sdoroshenko.elevator.multithreading.IController;
+import org.sdoroshenko.elevator.multithreading.Controller;
 import org.sdoroshenko.elevator.gui.LogConsole;
 
 public class ButtonActionListener implements ActionListener {
 
 	private final IGUIElevator gui;
-	private final IController controller;
+	private final Controller controller;
 	
-	public ButtonActionListener (final IGUIElevator gui, final IController controller) {
+	public ButtonActionListener (final IGUIElevator gui, final Controller controller) {
 		this.gui = gui;
 		this.controller = controller;
 	}

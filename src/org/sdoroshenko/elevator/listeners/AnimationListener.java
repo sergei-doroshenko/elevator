@@ -4,13 +4,18 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.sdoroshenko.elevator.multithreading.IController;
+import org.sdoroshenko.elevator.multithreading.Controller;
 
+/**
+ * Swing GUI animation listener.
+ *
+ * @author Sergei Doroshenko
+ */
 public class AnimationListener implements ChangeListener {
 	
-	private IController controller;
+	private final Controller controller;
 	
-	public AnimationListener(IController controller) {
+	public AnimationListener(final Controller controller) {
 		this.controller = controller;
 	}
 

@@ -6,6 +6,11 @@ import org.sdoroshenko.elevator.model.Story;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+/**
+ * Passenger transportation task.
+ *
+ * @author Sergei Doroshenko
+ */
 public class TransportationTask extends Thread {
 
     private static final Logger log = LogManager.getLogger(TransportationTask.class);
@@ -13,14 +18,14 @@ public class TransportationTask extends Thread {
     private final Passenger passenger;
     private final Story startStory;
     private final Story destinationStory;
-    private final Controller controller;
+    private final Dispatcher dispatcher;
 
-    public TransportationTask(final ThreadGroup group, final Passenger passenger, final Controller controller) {
+    public TransportationTask(final ThreadGroup group, final Passenger passenger, final Dispatcher dispatcher) {
         super(group, ("TransTaskThread-" + passenger.getID()));
         this.passenger = passenger;
         this.startStory = passenger.getStartStory();
         this.destinationStory = passenger.getDestinationStory();
-        this.controller = controller;
+        this.dispatcher = dispatcher;
     }
 
     public void run() {
@@ -39,13 +44,13 @@ public class TransportationTask extends Thread {
                     }
                 }
 
-                if (controller.pickUp(passenger)) {
+                if (dispatcher.pickUp(passenger)) {
                     passenger.setTransportationState(Passenger.TransportationState.IN_PROGRESS);
-                    controller.setLoadFlag(controller.isPassengersWayIn());
+                    dispatcher.setLoadFlag(dispatcher.isPassengersWayIn());
                     startStory.notifyAll();
 
-                    synchronized (controller) {
-                        controller.notifyAll();
+                    synchronized (dispatcher) {
+                        dispatcher.notifyAll();
                     }
                 }
             }
@@ -53,20 +58,20 @@ public class TransportationTask extends Thread {
         } while (passenger.getTransportationState() == Passenger.TransportationState.NOT_STARTED);
 
         // Transportation in the elevator phase
-        synchronized (controller) {
+        synchronized (dispatcher) {
             while (!destinationStory.isElevator()) {
                 try {
-                    controller.wait();
+                    dispatcher.wait();
                 } catch (InterruptedException e) {
                     log.error(Thread.currentThread().getName() + " interrupt!");
                     break;
                 }
             }
-            if (controller.dropOut(passenger)) {
+            if (dispatcher.dropOut(passenger)) {
                 passenger.setTransportationState(Passenger.TransportationState.COMPLETED);
-                controller.setMoveFlag(controller.isPassengersWayOut());//True if is, False if isn't
+                dispatcher.setMoveFlag(dispatcher.isPassengersWayOut());//True if is, False if isn't
             }
-            controller.notifyAll();
+            dispatcher.notifyAll();
         }
 
     } // The END of journey
